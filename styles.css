@@ -1,0 +1,230 @@
+/* Variables de color */
+:root {
+    --primary-color: #4CAF50;
+    --secondary-color: #81C784;
+    --dark-green: #388E3C;
+    --text-color: #333;
+    --bg-color: #f9f9f9;
+    --white: #ffffff;
+}
+
+/* Reset y estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.background-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(255, 255, 255, 0.3) 100%);
+    z-index: -1;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+}
+
+header {
+    margin-bottom: 2rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+h1 span {
+    color: var(--dark-green);
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: #666;
+}
+
+/* Pantallas (inicio, pregunta, resultado) */
+.screen {
+    background: var(--white);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    margin: 1rem 0;
+    transition: all 0.3s ease;
+}
+
+/* MODIFICACIÓN PRINCIPAL: Contenedor de inicio */
+#inicio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem; /* Espacio uniforme entre elementos */
+}
+
+/* MODIFICACIÓN: Contenedor de frutas */
+.fruit-animation {
+    display: flex;
+    justify-content: center;
+    gap: 2rem; /* Espacio entre frutas */
+    width: 100%;
+    margin-bottom: 0; /* Eliminamos el margen inferior */
+}
+
+/* MODIFICACIÓN: Iconos de comida */
+.food-icon {
+    width: 100px; /* Tamaño ligeramente reducido */
+    height: 100px;
+    animation: bounce 2s infinite;
+}
+
+/* MODIFICACIÓN: Botón Empezar */
+#boton-empezar {
+    margin-top: 0; /* Eliminamos el margen superior original */
+    align-self: center; /* Centrado horizontal */
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.btn-primary:hover {
+    background: var(--dark-green);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.btn-secondary {
+    background: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 1.5rem;
+}
+
+.btn-secondary:hover {
+    background: var(--dark-green);
+}
+
+/* Preguntas y opciones */
+#pregunta {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+#opciones button {
+    background: var(--white);
+    border: 2px solid var(--secondary-color);
+    color: var(--text-color);
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#opciones button:hover {
+    background: var(--secondary-color);
+    color: white;
+    transform: scale(1.03);
+}
+
+/* Resultados */
+#resultado {
+    text-align: center;
+}
+
+.result-icon {
+    width: 100px;
+    height: 100px;
+    margin: 1rem auto;
+    display: block;
+}
+
+#mensaje-resultados {
+    font-size: 1.1rem;
+    margin: 1rem 0;
+    line-height: 1.6;
+}
+
+/* Footer */
+footer {
+    margin-top: 2rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .options-grid {
+        grid-template-columns: 1fr;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+    
+    /* MODIFICACIÓN RESPONSIVE */
+    .fruit-animation {
+        gap: 1rem; /* Menos espacio entre frutas en móvil */
+    }
+    
+    .food-icon {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.hidden {
+    display: none !important;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}

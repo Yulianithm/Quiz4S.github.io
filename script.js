@@ -25,11 +25,21 @@ const preguntas = [
     }
 ];
 
+// Variables globales
 let aciertos = 0;
 let errores = 0;
 let preguntasMostradas = [];
 let preguntaActual = null;
 
+// Sonidos (agregados al inicio)
+const audioWin = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3');
+const audioLose = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-retro-arcade-lose-2027.mp3');
+audioWin.preload = 'auto';
+audioLose.preload = 'auto';
+audioWin.volume = 0.7;
+audioLose.volume = 0.5;
+
+// Event listeners
 document.getElementById('boton-empezar').addEventListener('click', iniciarJuego);
 document.getElementById('boton-siguiente').addEventListener('click', obtenerPreguntaAleatoria);
 
@@ -107,28 +117,40 @@ function mostrarResultados() {
     const mensajeResultados = document.getElementById('mensaje-resultados');
     const imagenResultados = document.getElementById('imagen-resultados');
 
-    resultadoDiv.classList.remove('hidden');
+    // Ocultar elementos no necesarios
     document.getElementById('pregunta').classList.add('hidden');
     document.getElementById('opciones').classList.add('hidden');
     document.getElementById('boton-siguiente').classList.add('hidden');
 
-    mensajeResultados.innerHTML = `
-        <h3>Resultado Final</h3>
-        <p>Aciertos: <strong>${aciertos}</strong></p>
-        <p>Errores: <strong>${errores}</strong></p>
-    `;
+    // Mostrar contenedor de resultados
+    resultadoDiv.classList.remove('hidden');
 
-    if (errores === 0) {
-        imagenResultados.src = "https://cdn-icons-png.flaticon.com/128/625/625398.png";
-        imagenResultados.style.width = "150px";
-        imagenResultados.className = "result-icon trofeo-animado";
-        mensajeResultados.innerHTML += "<p>¡Perfecto! 🏆 Dominas la nutrición.</p>";
+    // Determinar mensaje según aciertos
+    if (aciertos === 4) {
+        audioWin.play(); // Sonido de victoria
+        imagenResultados.src = "https://cdn-icons-png.flaticon.com/128/625/625398.png"; // Trofeo
+        mensajeResultados.innerHTML = `
+            <h3>¡Perfecto! 🏆</h3>
+            <p>Aciertos: <strong>${aciertos}/4</strong></p>
+            <p class="mensaje-especial">¡Estás totalmente en la onda 4S!</p>
+        `;
         lanzarConfetiExplosivo();
+    } else if (aciertos >= 2) {
+        audioWin.play(); // Sonido positivo
+        imagenResultados.src = "https://cdn-icons-png.flaticon.com/128/166/166522.png"; // Check verde
+        mensajeResultados.innerHTML = `
+            <h3>¡Bien hecho! 👍</h3>
+            <p>Aciertos: <strong>${aciertos}/4</strong></p>
+            <p class="mensaje-especial">Vas por buen camino hacia la onda 4S</p>
+        `;
     } else {
-        imagenResultados.src = "https://cdn-icons-png.flaticon.com/128/166/166527.png";
-        imagenResultados.style.width = "120px";
-        imagenResultados.className = "result-icon cara-triste";
-        mensajeResultados.innerHTML += "<p>¡Sigue practicando! 😢 La próxima lo harás mejor.</p>";
+        audioLose.play(); // Sonido de derrota
+        imagenResultados.src = "https://cdn-icons-png.flaticon.com/128/166/166527.png"; // Cara triste
+        mensajeResultados.innerHTML = `
+            <h3>¡Sigue practicando! 😢</h3>
+            <p>Aciertos: <strong>${aciertos}/4</strong></p>
+            <p>Revisa los datos curiosos para aprender más</p>
+        `;
     }
 }
 

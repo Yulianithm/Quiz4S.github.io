@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#4CAF50">
     <title>NutriQuiz 4S</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
@@ -11,6 +10,7 @@
 </head>
 <body>
     <div class="background-animation"></div>
+    <button id="activar-sonidos" class="btn-sonido">🔊 Activar Sonidos</button>
     <div class="container">
         <header>
             <h1 id="titulo" class="animate__animated animate__fadeInDown">NutriQuiz <span>4S</span></h1>
@@ -21,6 +21,14 @@
             <div id="inicio" class="screen">
                 <img src="https://cdn-icons-png.flaticon.com/128/4251/4251971.png" alt="Nutrición" class="food-icon animate__animated animate__bounce">
                 <button id="boton-empezar" class="btn-primary animate__animated animate__pulse">¡Comenzar!</button>
+            </div>
+
+            <div id="ruleta-container" class="screen hidden">
+                <div class="ruleta">
+                    <div class="ruleta-plato"></div>
+                    <div class="ruleta-aguja"></div>
+                </div>
+                <div class="ruleta-mensaje">Seleccionando pregunta...</div>
             </div>
 
             <div id="pregunta" class="screen hidden"></div>
@@ -37,11 +45,10 @@
         </main>
 
         <footer>
-            <p>© 2024 NutriQuiz 4S - Aprende sobre alimentación saludable</p>
+            <p>© 2025 NutriQuiz 4S - Aprende sobre alimentación saludable</p>
         </footer>
     </div>
     
-    <!-- Confeti (librería externa) -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script src="script.js"></script>
 </body>

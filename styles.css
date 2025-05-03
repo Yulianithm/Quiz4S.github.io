@@ -18,6 +18,7 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     line-height: 1.6;
+    overflow-x: hidden;
 }
 
 .background-animation {
@@ -118,7 +119,7 @@ h1 span {
     background: var(--primary-color);
     color: white;
     border: none;
-    padding: 8px 15px;
+    padding: 10px 15px;
     border-radius: 20px;
     cursor: pointer;
     z-index: 1000;
@@ -178,7 +179,6 @@ h1 span {
     line-height: 1.6;
 }
 
-/* Estilos mejorados para la ruleta */
 .ruleta {
     position: relative;
     width: 300px;
@@ -246,7 +246,6 @@ h1 span {
     animation: pulse 1.5s infinite;
 }
 
-/* Colores para secciones */
 .seccion-1 { background: #FF5252; }
 .seccion-2 { background: #FF9800; }
 .seccion-3 { background: #FFEB3B; }
@@ -264,7 +263,6 @@ footer {
     font-size: 0.9rem;
 }
 
-/* Animaciones */
 @keyframes bounce {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
@@ -319,7 +317,6 @@ footer {
     animation: pulse 1.5s infinite;
 }
 
-/* Asegurar que el botón de reinicio tenga buen espaciado */
 #resultado button {
     margin-top: 1.5rem;
 }

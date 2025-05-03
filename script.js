@@ -1,3 +1,4 @@
+// Preguntas del juego
 const preguntas = [
     {
         pregunta: "¿Qué vitamina abunda en los cítricos?",
@@ -61,17 +62,18 @@ const preguntas = [
     }
 ];
 
+// Íconos para las preguntas
 const iconosPreguntas = [
-    "https://cdn-icons-png.flaticon.com/128/2909/2909653.png", // Vitamina C
-    "https://cdn-icons-png.flaticon.com/128/3081/3081985.png", // Salmón
-    "https://cdn-icons-png.flaticon.com/128/2489/2489756.png", // Huesos
-    "https://cdn-icons-png.flaticon.com/128/2329/2329866.png", // Lentejas
-    "https://cdn-icons-png.flaticon.com/128/3274/3274459.png", // Leche materna
-    "https://cdn-icons-png.flaticon.com/128/135/135722.png",   // Manzana
-    "https://cdn-icons-png.flaticon.com/128/2664/2664066.png", // Azúcar
-    "https://cdn-icons-png.flaticon.com/128/2489/2489718.png", // Huevo
-    "https://cdn-icons-png.flaticon.com/128/3066/3066978.png", // Agua
-    "https://cdn-icons-png.flaticon.com/128/1046/1046857.png"  // Harina
+    "https://cdn-icons-png.flaticon.com/128/2909/2909653.png",
+    "https://cdn-icons-png.flaticon.com/128/3081/3081985.png",
+    "https://cdn-icons-png.flaticon.com/128/2489/2489756.png",
+    "https://cdn-icons-png.flaticon.com/128/2329/2329866.png",
+    "https://cdn-icons-png.flaticon.com/128/3274/3274459.png",
+    "https://cdn-icons-png.flaticon.com/128/135/135722.png",
+    "https://cdn-icons-png.flaticon.com/128/2664/2664066.png",
+    "https://cdn-icons-png.flaticon.com/128/2489/2489718.png",
+    "https://cdn-icons-png.flaticon.com/128/3066/3066978.png",
+    "https://cdn-icons-png.flaticon.com/128/1046/1046857.png"
 ];
 
 // Sistema de sonidos mejorado
@@ -83,77 +85,90 @@ const sonidos = {
 };
 
 // Configuración de volúmenes
-sonidos.click.volume = 0.3;
-sonidos.ruleta.volume = 0.5;
+sonidos.click.volume = 0.5;
+sonidos.ruleta.volume = 0.6;
 sonidos.win.volume = 0.7;
 sonidos.lose.volume = 0.7;
+
+// Control de sonidos
+let sonidosHabilitados = false;
+let interaccionInicial = false;
 
 // Precargar sonidos
 function precargarSonidos() {
     Object.values(sonidos).forEach(audio => {
         audio.load();
-        // Intento de reproducción silenciosa para desbloquear audio
-        audio.muted = true;
-        audio.play().then(() => {
-            audio.pause();
-            audio.currentTime = 0;
-            audio.muted = false;
-        }).catch(e => console.log("Precarga de audio:", e));
     });
 }
 
-// Función mejorada para reproducir sonidos
+// Función para reproducir sonidos
 function playSonido(tipo) {
+    if (!sonidosHabilitados) return;
+    
     const audio = sonidos[tipo];
     if (!audio) return;
     
-    // Clonamos el audio para permitir múltiples reproducciones
-    const clone = audio.cloneNode(true);
+    // Clonar para permitir múltiples reproducciones
+    const clone = audio.cloneNode();
     clone.volume = audio.volume;
-    
-    const promise = clone.play();
-    
-    if (promise !== undefined) {
-        promise.catch(error => {
-            console.log("Reproducción prevenida:", error);
-            mostrarBotonActivarSonidos();
-        });
-    }
+    clone.play().catch(e => console.log("Error al reproducir:", e));
 }
 
-// Mostrar botón para activar sonidos
+// Activar sonidos (solución definitiva)
+function activarSonidos() {
+    if (sonidosHabilitados) return;
+    
+    // Solución para navegadores modernos
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    const audioContext = new AudioContext();
+    
+    // Crear nodo silencioso
+    const gainNode = audioContext.createGain();
+    gainNode.gain.value = 0;
+    gainNode.connect(audioContext.destination);
+    
+    // Oscilador temporal
+    const oscillator = audioContext.createOscillator();
+    oscillator.connect(gainNode);
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + 0.1);
+    
+    sonidosHabilitados = true;
+    document.getElementById('activar-sonidos').style.display = 'none';
+    playSonido('click'); // Sonido de confirmación
+}
+
+// Mostrar botón de activación
 function mostrarBotonActivarSonidos() {
     const btn = document.getElementById('activar-sonidos');
     if (!btn) return;
     
     btn.style.display = 'block';
+    btn.addEventListener('click', activarSonidos);
 }
 
-// Inicialización de sonidos
-document.getElementById('activar-sonidos').addEventListener('click', function() {
-    sonidos.click.play().then(() => {
-        this.textContent = '✓ Sonidos Activados';
-        setTimeout(() => {
-            this.style.display = 'none';
-        }, 2000);
-    }).catch(e => {
-        console.log("Error al activar sonidos:", e);
-        this.textContent = '⚠ Haz clic en la pantalla primero';
+// Inicialización
+document.addEventListener('DOMContentLoaded', function() {
+    precargarSonidos();
+    mostrarBotonActivarSonidos();
+    
+    // Activar con cualquier interacción
+    document.addEventListener('click', function primeraInteraccion() {
+        if (!interaccionInicial) {
+            interaccionInicial = true;
+            activarSonidos();
+            document.removeEventListener('click', primeraInteraccion);
+        }
     });
 });
 
-// Ocultar botón de sonidos al inicio
-document.getElementById('activar-sonidos').style.display = 'none';
-
-// Precargar sonidos cuando la página carga
-window.addEventListener('DOMContentLoaded', precargarSonidos);
-
+// Variables del juego
 let aciertos = 0;
 let errores = 0;
 let preguntasMostradas = [];
 let preguntaActual = null;
 
-// Event listeners para botones
+// Event listeners
 document.getElementById('boton-empezar').addEventListener('click', function() {
     playSonido('click');
     iniciarJuego();
@@ -164,6 +179,7 @@ document.getElementById('boton-siguiente').addEventListener('click', function() 
     obtenerPreguntaAleatoria();
 });
 
+// Funciones del juego
 function iniciarJuego() {
     aciertos = 0;
     errores = 0;
@@ -294,7 +310,7 @@ function mostrarResultados() {
 
     resultadoDiv.classList.remove('hidden');
 
-    // Crear botón "Jugar otra vez"
+    // Crear botón de reinicio
     const botonReinicio = document.createElement('button');
     botonReinicio.textContent = 'Jugar otra vez';
     botonReinicio.className = 'btn-primary';
